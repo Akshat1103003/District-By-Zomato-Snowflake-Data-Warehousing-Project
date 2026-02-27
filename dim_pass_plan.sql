@@ -1,7 +1,7 @@
 -- ================================================================
--- STEP 4A: CREATE DIM_PASS_PLAN (SCD TYPE 2)
+-- CREATE DIM_PASS_PLAN (SCD TYPE 2)
 -- ================================================================
--- Execute Date: 2026-02-15
+-- Execute Date: 2026-02-25
 -- Purpose: Dimension table for District Pass plan definitions with full history
 -- Type: SCD Type 2 (maintains historical versions)
 -- ================================================================
