@@ -1,5 +1,5 @@
 -- ================================================================
--- 20: FACT_BENEFIT_REDEMPTION - ENHANCED WITH FULL ANALYTICS
+-- FACT_BENEFIT_REDEMPTION 
 -- ================================================================
 -- Purpose: Comprehensive benefit redemption tracking with 4 categories
 -- Dependencies: FACT_BOOKINGS, FACT_PASS_SUBSCRIPTION, DIM_PASS_BENEFIT_TYPE, DIM_CUSTOMER
