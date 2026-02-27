@@ -84,7 +84,7 @@ The project models the data ecosystem for **District by Zomato**, India's integr
 │  │  🥉 BRONZE LAYER (Raw Landing Zone)                               │  │
 │  │  ┌──────────────────────────┐  ┌───────────────────────────────┐  │  │
 │  │  │  DISTRICT_RAW_TABLE      │  │ Snowpipe + Stage + Stream     │  │  │
-│  │  │  ~175,000 rows           │  │ + File Format + Quarantine    │  │  │
+│  │  │             │  │ + File Format + Quarantine    │  │  │
 │  │  │  All columns VARCHAR     │  │ + 4 Monitoring Views          │  │  │
 │  │  └──────────────────────────┘  └───────────────────────────────┘  │  │
 │  └───────────────────────────┬───────────────────────────────────────┘  │
@@ -282,20 +282,20 @@ The Silver layer transforms raw Bronze data into a **Star Schema dimensional mod
                               │    dim_date       │
                               │    SCD Type 0     │
                               │    Static Table   │
-                              │    ~4,018 rows    │
+                              │                   │
                               └────────┬─────────┘
                                        │
 ┌──────────────────┐          ┌────────┴─────────┐          ┌──────────────────┐
 │  dim_customer    │──────────│  fact_bookings   │──────────│  dim_movie       │
 │  SCD Type 2      │          │  Dynamic Table   │          │  SCD Type 1      │
-│  Stream + Task   │          │  ~175,000 rows   │          │  Dynamic Table   │
-│  + Procedures    │          └────────┬─────────┘          │  ~150 movies     │
+│  Stream + Task   │          │                  │          │  Dynamic Table   │
+│  + Procedures    │          └────────┬─────────┘          │                  │
 │  + 2 UDFs        │                   │                    └──────────────────┘
-│  ~12,500 cust    │          ┌────────┴─────────┐
+│                  │          ┌────────┴─────────┐
 └──────────────────┘          │   dim_venue      │
                               │   SCD Type 1     │
                               │   Dynamic Table  │
-┌──────────────────┐          │   ~991 venues    │
+┌──────────────────┐          │                  │
 │ dim_pass_plan    │          └──────────────────┘
 │ dim_pass_benefit │
 │   _type          │          ┌──────────────────────────────┐
