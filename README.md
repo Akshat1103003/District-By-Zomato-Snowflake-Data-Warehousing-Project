@@ -71,7 +71,7 @@ The project models the data ecosystem for **District by Zomato**, India's integr
                                │  Manual Upload
                                ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                     ☁️  AWS S3 (Data Lake)                              │
+│                     ☁️  AWS S3 (Data Lake)                             │
 │         s3://district-analytics-raw/raw-folder/                        │
 │         ├── 2025_raw_folder/                                           │
 │         └── 2026_raw_folder/January_01/                                │
@@ -84,7 +84,7 @@ The project models the data ecosystem for **District by Zomato**, India's integr
 │  │  🥉 BRONZE LAYER (Raw Landing Zone)                               │  │
 │  │  ┌──────────────────────────┐  ┌───────────────────────────────┐  │  │
 │  │  │  DISTRICT_RAW_TABLE      │  │ Snowpipe + Stage + Stream     │  │  │
-│  │  │             │  │ + File Format + Quarantine    │  │  │
+│  │  │                  + File Format + Quarantine                 │  │  │
 │  │  │  All columns VARCHAR     │  │ + 4 Monitoring Views          │  │  │
 │  │  └──────────────────────────┘  └───────────────────────────────┘  │  │
 │  └───────────────────────────┬───────────────────────────────────────┘  │
