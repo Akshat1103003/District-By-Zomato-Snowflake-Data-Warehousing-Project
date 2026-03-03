@@ -8,6 +8,9 @@
 
 </div>
 
+## Power BI Dashboard
+[Power BI Dashboard Link](https://app.powerbi.com/groups/me/reports/ff0f2a2f-2596-4444-94bc-1042470df0a0/a3ea066064fa82f49126?experience=power-bi)
+|-------------------------|
 ---
 
 ## 📌 Table of Contents
