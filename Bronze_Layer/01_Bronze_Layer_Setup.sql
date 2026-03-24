@@ -33,7 +33,7 @@ CREATE OR REPLACE STORAGE INTEGRATION DISTRICT_S3_INTEGRATION
 TYPE = EXTERNAL_STAGE
 STORAGE_PROVIDER = 'S3'
 ENABLED = TRUE
-STORAGE_AWS_ROLE_ARN = 'arn:aws:iam::YOUR_AWS_ACCOUNT_ID:role/snowflake-role'  -- ⚠️ REPLACE THIS
+STORAGE_AWS_ROLE_ARN = 'arn:aws:iam::YOUR_AWS_ACCOUNT_ID:role/snowflake-role'  -- ⚠️ REPLACE THIS with your AWS role.
 STORAGE_ALLOWED_LOCATIONS = ('s3://district-analytics-raw/raw_folder/')
 COMMENT = 'Storage integration for District Analytics S3 bucket';
 
@@ -107,7 +107,7 @@ Then re-run the CREATE STORAGE INTEGRATION command
 
 ══════════════════════════════════════════════════════════════════
 */
-
+*/
 -- ================================================================
 -- STEP 3: CREATE FILE FORMAT
 -- ================================================================
@@ -279,24 +279,17 @@ CREATE OR REPLACE TABLE DISTRICT_ANALYTICS_DB.BRONZE_LAYER.DISTRICT_RAW_TABLE (
     -- ══════════════════════════════════════════════════════════
     CONSTRAINT PK_BOOKING_ID PRIMARY KEY (BOOKING_ID)
 )
-COMMENT = 'Bronze layer raw table with all 74 columns for District by Zomato bookings';
+COMMENT = 'Bronze layer raw table created ';
 
-SELECT '✅ Bronze table created with 74 columns' AS status;
-
--- Verify column count
-SELECT COUNT(*) AS total_columns
-FROM INFORMATION_SCHEMA.COLUMNS
-WHERE TABLE_SCHEMA = 'BRONZE_LAYER'
-  AND TABLE_NAME = 'DISTRICT_RAW_TABLE';
-
--- Should return 74
 
 -- ================================================================
 -- STEP 6: CREATE SNOWPIPE (SQS AUTO-INGEST)
 -- ================================================================
 
+
 CREATE OR REPLACE PIPE DISTRICT_ANALYTICS_DB.BRONZE_LAYER.DISTRICT_BRONZE_SNOWPIPE
-COMMENT = 'Auto-ingest pipe for District bookings - 74 columns via SQS'
+COMMENT = 'Auto-ingest pipe for District bookings - 74 columns - CORRECTED MAPPING'
+AUTO_INGEST=TRUE
 AS
 COPY INTO DISTRICT_ANALYTICS_DB.BRONZE_LAYER.DISTRICT_RAW_TABLE (
     BOOKING_ID, USER_ID, CUSTOMER_NAME, CUSTOMER_CITY, VENUE_ID,
@@ -308,7 +301,7 @@ COPY INTO DISTRICT_ANALYTICS_DB.BRONZE_LAYER.DISTRICT_RAW_TABLE (
     COVER_CHARGE_SETTLEMENT, TAX_AMOUNT, DISCOUNT_APPLIED,
     CONVENIENCE_FEE, TOTAL_AMOUNT, TOTAL_SAVINGS,
     PAYMENT_METHOD, PAYMENT_STATUS, RATING,
-    LOADED_AT, SOURCE_FILE,
+    LOADED_AT, SOURCE_FILE,  -- Auto-generate these
     USER_EMAIL, USER_PHONE, USER_STATE, USER_COUNTRY,
     USER_SIGNUP_DATE, USER_SEGMENT, USER_LIFETIME_VALUE,
     PREFERRED_CATEGORY, BOOKING_STATUS, CANCELLATION_DATE,
@@ -364,12 +357,12 @@ FROM (
         -- Column 31
         NULLIF($31, '')::NUMBER(3,1),              -- RATING
         
-        -- Columns 32-33: AUTO-GENERATED (don't read from CSV)
-        CURRENT_TIMESTAMP(),                        -- LOADED_AT
-        METADATA$FILENAME,                          -- SOURCE_FILE
+        -- ✅ Columns 32-33: AUTO-GENERATE (skip CSV columns 32-33)
+        CURRENT_TIMESTAMP(),                        -- LOADED_AT (generated)
+        METADATA$FILENAME,                          -- SOURCE_FILE (generated)
         
-        -- Columns 34-40
-        $34::VARCHAR(200),                         -- USER_EMAIL
+        -- ✅ Columns 34-40 (CSV columns 34-40, adjusted for skipped columns)
+        $34::VARCHAR(200),                         -- USER_EMAIL (now VARCHAR(200))
         $35::VARCHAR(20),                          -- USER_PHONE
         $36::VARCHAR(50),                          -- USER_STATE
         $37::VARCHAR(50),                          -- USER_COUNTRY
@@ -413,7 +406,7 @@ FROM (
         NULLIF($69, ''),                           -- REVIEW_TEXT
         TRY_TO_DATE(NULLIF($70, ''), 'YYYY-MM-DD'), -- REVIEW_DATE
         
-        -- Columns 71-74 (NEW COLUMNS)
+        -- Columns 71-74 (NEW)
         NULLIF($71, ''),                           -- REVIEW_STATUS
         NULLIF($72, ''),                           -- VENUE_PRICING_TIER ✅
         NULLIF($73, ''),                           -- AGE ✅
@@ -422,6 +415,8 @@ FROM (
     FROM @DISTRICT_STAGE
 )
 FILE_FORMAT = (FORMAT_NAME = 'CSV_FILE_FORMAT');
+
+SELECT SYSTEM$PIPE_STATUS('DISTRICT_BRONZE_SNOWPIPE');
 
 SELECT '✅ Snowpipe created' AS status;
 
@@ -509,6 +504,7 @@ Should show:
 }
 */
 
+/*
 ================================================================================
 SETUP CHECKLIST
 ================================================================================
