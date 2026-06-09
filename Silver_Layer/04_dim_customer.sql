@@ -41,9 +41,6 @@ $$
     END
 $$;
 
-SELECT '✅ CALCULATE_LOYALTY_TIER UDF created' AS status;
-
-
 -- Function 2: Bin AGE into age groups
 CREATE OR REPLACE FUNCTION BIN_AGE_GROUP(age_str VARCHAR)
 RETURNS VARCHAR(20)
@@ -62,8 +59,6 @@ $$
     END
 $$;
 
-SELECT '✅ BIN_AGE_GROUP UDF created' AS status;
-
 
 -- ================================================================
 -- 2: CREATE DIM_CUSTOMER TABLE
@@ -81,7 +76,6 @@ CREATE OR REPLACE TABLE DISTRICT_ANALYTICS_DB.SILVER_LAYER.DIM_CUSTOMER (
     CUSTOMER_NAME           VARCHAR(200),
     CUSTOMER_EMAIL          VARCHAR(200),
     CUSTOMER_PHONE          VARCHAR(50),
-    
     CUSTOMER_GENDER         VARCHAR(20)     COMMENT 'Male, Female, Other (from Bronze)',
     AGE                     NUMBER(3,0)     COMMENT 'Customer age (from Bronze AGE column)',
     AGE_GROUP               VARCHAR(20)     COMMENT '18-25, 26-35, 36-45, 46-55, 56+',
@@ -411,9 +405,7 @@ $$;
 
 SELECT '✅ LOAD_DIM_CUSTOMER procedure created' AS status;
 
--- ================================================================
 -- STEP 7: CREATE TASK FOR INCREMENTAL LOADS
--- ================================================================
 
 CREATE OR REPLACE TASK DISTRICT_ANALYTICS_DB.SILVER_LAYER.LOAD_DIM_CUSTOMER_TASK
     WAREHOUSE = COMPUTE_WH
