@@ -9,7 +9,7 @@
 </div>
 
 ## Power BI Dashboard
-[Power BI Dashboard Link](https://app.powerbi.com/groups/me/reports/ff0f2a2f-2596-4444-94bc-1042470df0a0/a3ea066064fa82f49126?experience=power-bi)
+[Power BI Dashboard Link](https://app.powerbi.com/view?r=eyJrIjoiNThiMDI5MTYtMjgyOC00N2UxLTk1YzctMDI3ZWRkMjc0YzNiIiwidCI6ImM2ZTU0OWIzLTVmNDUtNDAzMi1hYWU5LWQ0MjQ0ZGM1YjJjNCJ9&pageName=48e3062658a4d4604c9c)
 |-------------------------|
 ---
 
