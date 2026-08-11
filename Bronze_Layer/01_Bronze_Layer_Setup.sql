@@ -288,7 +288,7 @@ COMMENT = 'Bronze layer raw table created ';
 
 
 CREATE OR REPLACE PIPE DISTRICT_ANALYTICS_DB.BRONZE_LAYER.DISTRICT_BRONZE_SNOWPIPE
-COMMENT = 'Auto-ingest pipe for District bookings - 74 columns - CORRECTED MAPPING'
+COMMENT = 'Auto-ingest pipe for District bookings' -- Remember to correctly map the column names
 AUTO_INGEST=TRUE
 AS
 COPY INTO DISTRICT_ANALYTICS_DB.BRONZE_LAYER.DISTRICT_RAW_TABLE (
